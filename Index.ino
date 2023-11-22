@@ -3,7 +3,8 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 
-const char* ssid = "Wokwi-GUEST";
+//informações necessárias para conectar o dispositivo à rede Wi-Fi e ao servidor MQTT da Tago.io.
+const char* ssid = "Wokwi-GUEST"; 
 const char* password = "";
 
 const char* mqttServer = "mqtt.tago.io";
@@ -33,9 +34,9 @@ void setup()
   pinMode(failedButton, INPUT);
   pinMode(redLed, OUTPUT);
   pinMode(trava, OUTPUT);
-  initialMessage();
+  initialMessage(); //a função initialMessage, que exibe uma mensagem inicial no LCD.
 }
-
+//Lembrete: bloco abaixo usa as funções dos botões pra exibir informações no LCD e enviar dados para a Tago.io via MQTT.
 void loop()
 {
   client.loop();
@@ -77,11 +78,11 @@ void loop()
 void initialMessage()
 {
   lcd.clear();
-  lcd.print("Aguardando RFID");
+  lcd.print("Aguardando RFID"); //exibe uma mensagem inicial no LCD
   lcd.setCursor(0, 1);
 }
 
-void enviarDadosParaTago(String dado1, String dado2)
+void enviarDadosParaTago(String dado1, String dado2) //cria e envia uma mensagem JSON contendo os dados para o servidor MQTT da Tago.io.
 {
   DynamicJsonDocument jsonDoc(1024);
   JsonObject root = jsonDoc.to<JsonObject>();
@@ -96,7 +97,7 @@ void enviarDadosParaTago(String dado1, String dado2)
   Serial.println("Dados enviados para Tago.io: " + payload);
 }
 
-void connectToWiFi()
+void connectToWiFi() //responsável por conectar o dispositivo à rede Wi-Fi
 {
   Serial.println("Conectando WiFi");
   WiFi.begin(ssid, password);
@@ -108,7 +109,7 @@ void connectToWiFi()
   Serial.println("\nWiFi Conectado");
 }
 
-void connectToMQTT()
+void connectToMQTT() //estabelece a conexão com o servidor MQTT da Tago.io.
 {
   Serial.println("Conectando com Servidor MQTT");
   client.setServer(mqttServer, mqttPort);
